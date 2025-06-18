@@ -10,11 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- Chosen Palette: Doan Learning Center Logo Theme -->
-    <!-- Application Structure Plan: 이 SPA는 사용자가 정보를 단계적으로 발견하도록 설계된 단일 스크롤 페이지입니다. 'Hero 섹션'에서 즉각적으로 주제를 인지시키고, '핵심 정보 대시보드'에서 가장 중요한 정보를 빠르게 전달합니다. 그 다음 '대회 종목 둘러보기' 섹션에서 사용자가 필터를 통해 직접 자신에게 맞는 종목을 찾도록 유도하며, 각 종목 카드를 클릭하면 상세 정보를 담은 모달(팝업)이 나타나도록 구현했습니다. 마지막으로 '대회 일정 타임라인'과 '특별 기회' 섹션을 통해 세부 정보를 시각적으로 전달합니다. 이 구조는 정적인 문서를 읽는 것보다 훨씬 더 능동적이고 흥미로운 정보 탐색 경험을 제공하기 위해 채택되었습니다. -->
+    <!-- Application Structure Plan: 이 SPA는 사용자가 정보를 단계적으로 발견하도록 설계된 단일 스크롤 페이지입니다. 'Hero 섹션'에서 즉각적으로 주제를 인지시키고, '핵심 정보 대시보드'에서 가장 중요한 정보를 빠르게 전달합니다. 그 다음 '대회 종목 둘러보기' 섹션에서 사용자가 필터를 통해 직접 자신에게 맞는 종목을 찾도록 유도하며, 각 종목 카드를 클릭하면 화면 중앙으로 확대되는 애니메이션과 함께 상세 정보가 나타나도록 구현했습니다. 마지막으로 '대회 일정 타임라인'과 '특별 기회' 섹션을 통해 세부 정보를 시각적으로 전달합니다. 이 구조는 정적인 문서를 읽는 것보다 훨씬 더 능동적이고 흥미로운 정보 탐색 경험을 제공하기 위해 채택되었습니다. -->
     <!-- Visualization & Content Choices: 
-        - 핵심 정보 (날짜, 장소 등): Goal: Inform -> Viz: 아이콘과 큰 텍스트를 사용한 카드 -> Justification: 가장 중요한 정보를 빠르고 쉽게 인식할 수 있음. Method: HTML/Tailwind.
-        - 대회 종목 목록: Goal: Organize/Explore -> Viz: 필터링 가능한 카드 목록. 클릭 시 상세 정보 모달(팝업) 표시 -> Justification: 사용자가 능동적으로 자신에게 맞는 정보를 찾고, 심층 정보까지 탐색할 수 있도록 상호작용성을 극대화함. Method: HTML/Tailwind/JS.
-        - 대회 일정: Goal: Change (over time) -> Viz: 수직 타임라인 -> Justification: 이틀간의 이벤트 순서를 목록보다 시각적으로 흥미롭게 전달함. Method: HTML/Tailwind.
+        - 핵심 정보 (날짜, 장소 등): Goal: Inform -> Viz: 아이콘과 큰 텍스트를 사용한 카드, 스크롤 애니메이션 적용 -> Justification: 가장 중요한 정보를 빠르고 쉽게, 그리고 동적으로 인식할 수 있음. Method: HTML/Tailwind/JS.
+        - 대회 종목 목록: Goal: Organize/Explore -> Viz: 필터링 가능한 카드 목록. 클릭 시 화면 중앙으로 확대되며 상세 정보 표시 -> Justification: 클릭 인터랙션에 세련된 애니메이션을 적용하여 사용자의 흥미를 유발하고, 정보 탐색 경험을 극대화함. Method: HTML/Tailwind/JS.
+        - 대회 일정: Goal: Change (over time) -> Viz: 수직 타임라인, 스크롤 애니메이션 적용 -> Justification: 이틀간의 이벤트 순서를 시각적으로 흥미롭게 전달함. Method: HTML/Tailwind/JS.
         - CONFIRMATION: NO SVG/Mermaid used.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -22,29 +22,24 @@
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #fefae0; /* 로고와 어울리는 따뜻한 크림색 배경 */
-            color: #264653; /* 로고의 어두운 청록색을 기본 텍스트 색상으로 사용 */
+            background-color: #fefae0;
+            color: #264653;
         }
         .gradient-text {
-            background: linear-gradient(90deg, #2a9d8f, #e76f51); /* 청록색과 산호색 그라데이션 */
+            background: linear-gradient(90deg, #2a9d8f, #e76f51);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -31.5px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: white;
-            border: 4px solid #f4a261; /* 주황색 테두리 */
+        .animated-item {
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .animated-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .event-card {
-            display: flex;
-            flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
@@ -52,22 +47,22 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        .info-card {
-             transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
         .filter-btn.active {
-            background-color: #2a9d8f; /* 활성 버튼 청록색 */
+            background-color: #2a9d8f;
             color: white;
         }
-        .modal-backdrop {
-            transition: opacity 0.3s ease;
+        #modal-backdrop, #calendar-modal-backdrop {
+            transition: opacity 0.4s ease;
         }
-        .modal-content {
-            transition: transform 0.3s ease;
+        #event-modal, #calendar-modal {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            opacity: 0;
+            transform-origin: center center;
+        }
+        #event-modal.open, #calendar-modal.open {
+            opacity: 1;
         }
     </style>
 </head>
@@ -75,38 +70,40 @@
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
 
-        <header class="text-center my-8 md:my-16">
+        <header class="text-center my-8 md:my-16 animated-item">
             <h1 class="text-4xl md:text-6xl font-black gradient-text">한국창의코딩대회 2025</h1>
             <p class="mt-4 text-lg md:text-xl" style="color: #264653;">미래를 코딩하는 창의 인재들의 축제, 모든 것을 한눈에!</p>
         </header>
 
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center mb-16">
-            <div class="info-card bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #2a9d8f;">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center mb-12">
+            <div id="date-card" class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4 cursor-pointer" style="border-color: #2a9d8f;">
                 <p class="text-5xl mb-2">🗓️</p>
                 <p class="text-xl font-bold" style="color: #264653;">2025년 8월 9일 ~ 10일</p>
+                <p class="text-sm mt-1" style="color: #2a9d8f;">🔍 (달력에서 확인하기)</p>
             </div>
-            <a href="https://map.kakao.com/link/search/알펜시아 컨벤션센터" target="_blank" rel="noopener noreferrer" class="info-card block bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e76f51;">
+            <a href="https://map.kakao.com/link/search/알펜시아 컨벤션센터" target="_blank" rel="noopener noreferrer" class="animated-item block bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e76f51;">
                 <p class="text-5xl mb-2">📍</p>
                 <p class="text-xl font-bold" style="color: #264653;">알펜시아 컨벤션센터</p>
-                <p class="text-sm mt-1" style="color: #e76f51;">(지도에서 위치 보기)</p>
+                <p class="text-sm mt-1" style="color: #e76f51;">🔍 (지도에서 위치 보기)</p>
             </a>
-            <div class="info-card bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #f4a261;">
+            <div class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #f4a261;">
                 <p class="text-5xl mb-2">👥</p>
                 <p class="text-xl font-bold" style="color: #264653;">초·중·고 및 청소년</p>
             </div>
-            <div class="info-card bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e9c46a;">
-                <p class="text-5xl mb-2">🏢</p>
-                <p class="text-xl font-bold" style="color: #264653;">(사)한국로보컵협회<br>& 로봇신문</p>
+            <div class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e9c46a;">
+                 <p class="text-5xl mb-2">🏢</p>
+                 <p class="text-xl font-bold" style="color: #264653;">(사)한국로보컵협회<br>& 로봇신문</p>
+                 <p class="text-sm mt-1" style="color: #2a9d8f;">(주최)</p>
             </div>
         </section>
 
         <section class="mb-16">
-            <div class="text-center mb-10">
+            <div class="text-center mb-10 animated-item">
                 <h2 class="text-3xl font-bold mb-2" style="color: #264653;">대회 종목 둘러보기</h2>
                 <p class="max-w-3xl mx-auto" style="color: #264653;">아래 필터를 사용하여 관심있는 연령대의 종목만 모아볼 수 있습니다.</p>
-                <p class="max-w-3xl mx-auto" style="color: #264653;">각 카드를 클릭하면 더 자세한 내용을 확인할 수 있습니다.</p>
+                <p class="max-w-3xl mx-auto font-bold" style="color: #e76f51;">각 카드를 클릭하면 상세 내용을 확인할 수 있습니다.</p>
             </div>
-            <div id="filter-buttons" class="flex flex-wrap justify-center gap-2 mb-8">
+            <div id="filter-buttons" class="flex flex-wrap justify-center gap-2 mb-8 animated-item">
                 <button class="filter-btn active py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="all">전체보기</button>
                 <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="rookie">초등 1-2학년</button>
                 <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="u12">초등 3-6학년</button>
@@ -117,29 +114,32 @@
         </section>
 
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-             <div class="bg-white rounded-lg shadow-md p-8">
+             <div class="bg-white rounded-lg shadow-md p-8 animated-item">
                 <h2 class="text-3xl font-bold text-center mb-8" style="color: #264653;">대회 일정</h2>
                 <div class="relative pl-8 border-l-4" style="border-color: #f4a261;">
-                    <div class="mb-12 timeline-item">
-                        <h3 class="text-xl font-bold" style="color: #2a9d8f;">8월 9일 (토) - 예선</h3>
-                        <p class="mt-2" style="color: #264653;">루키챌린지 및 각 종목별 예선 경기가 시작됩니다. 참가자들은 그동안 갈고닦은 실력을 처음으로 선보이는 날입니다.</p>
+                    <div class="mb-12 animated-item">
+                        <h3 class="text-xl font-bold" style="color: #2a9d8f;">경기 1일차 (토)</h3>
+                        <p class="mt-2" style="color: #264653;">레스큐 종목의 예선 라운드가 시작되어, 팀들은 다음 날의 최종 경기에 유리한 고지를 점하기 위해 최대한 많은 점수를 획득하고자 노력합니다.</p>
+                        <p class="mt-2"><b style="color: #e76f51;">루키 챌린지 종목은 토요일 하루 동안 모든 경기가 진행되어 최종 순위가 결정됩니다.</b></p>
                     </div>
-                    <div class="timeline-item">
-                        <h3 class="text-xl font-bold" style="color: #2a9d8f;">8월 10일 (일) - 본선 및 시상</h3>
-                        <p class="mt-2" style="color: #264653;">예선을 통과한 팀들이 최종 우승을 위해 격돌하는 본선 경기가 진행됩니다. 모든 심사가 완료된 후 시상식이 열립니다.</p>
+                    <div class="animated-item">
+                        <h3 class="text-xl font-bold" style="color: #2a9d8f;">경기 2일차 (일)</h3>
+                        <p class="mt-2" style="color: #264653;">전날의 점수와 합산될 레스큐 종목의 최종 라운드가 숨가쁘게 진행됩니다. 모든 경기가 종료된 후, 이틀간의 점수를 합산하여 최종 순위를 결정하고 영광의 수상자들을 위한 시상식이 열립니다.</p>
                     </div>
                 </div>
             </div>
-            <div class="rounded-lg shadow-xl p-8 flex flex-col justify-center items-center text-center text-white" style="background-color: #2a9d8f;">
+            <div class="rounded-lg shadow-xl p-8 flex flex-col justify-center items-center text-center text-white animated-item" style="background-color: #2a9d8f;">
                 <h2 class="text-3xl font-black mb-4">🌍 세계로 가는 특별한 기회!</h2>
-                <p class="text-lg max-w-md mx-auto">
-                    본 대회는 <strong class="font-bold underline" style="color: #e9c46a;">RoboCup Asia-Pacific Abudhabi 2025</strong>의 대한민국 대표 선발전을 겸합니다.
-                    세계 무대에서 여러분의 꿈을 펼칠 수 있는 절호의 기회를 놓치지 마세요!
-                </p>
+                <p class="text-lg max-w-md mx-auto">본 대회는 대한민국 대표 선발전을 겸합니다.</p>
+                <div class="my-4 p-3 rounded-lg w-full max-w-md" style="background-color: #fefae0e6;">
+                    <p class="text-2xl font-black" style="color: #e76f51;">RoboCup Asia-Pacific Abudhabi 2025</p>
+                     <p class="text-md font-bold mt-1" style="color: #264653;">(10 - 15 November 2025)</p>
+                </div>
+                <p class="text-lg max-w-md mx-auto">세계 무대에서 여러분의 꿈을 펼칠 수 있는 절호의 기회를 놓치지 마세요!</p>
             </div>
         </section>
 
-        <footer class="text-center mt-12 py-8 border-t" style="border-color: #e9c46a;">
+        <footer class="text-center mt-12 py-8 border-t animated-item" style="border-color: #e9c46a;">
             <div class="flex flex-col items-center justify-center gap-4">
                 <img src="https://i.imgur.com/HnTF6jn.png" alt="도안러닝센터 로고" class="h-16">
                 <p class="font-bold text-xl" style="color: #264653;">대회 참가 문의</p>
@@ -151,9 +151,9 @@
         </footer>
     </div>
 
-    <div id="modal-backdrop" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
-    <div id="event-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-11/12 md:w-3/4 lg:w-1/2 max-w-4xl">
-        <div class="modal-content bg-white rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-75 hidden z-40"></div>
+    <div id="event-modal" class="fixed top-0 left-0 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
             <div class="sticky top-0 bg-white p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
                 <h3 id="modal-title" class="text-2xl font-bold" style="color: #264653;"></h3>
                 <button id="modal-close-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
@@ -162,7 +162,27 @@
             </div>
         </div>
     </div>
-
+    
+    <div id="calendar-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-60 hidden z-40"></div>
+    <div id="calendar-modal" class="fixed top-0 left-0 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-2xl">
+            <div class="p-4 flex items-center justify-between border-b">
+                <h3 id="calendar-title" class="text-lg font-bold" style="color: #264653;"></h3>
+                <button id="calendar-close-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+            <div class="grid grid-cols-7 text-center text-xs font-bold py-2 border-b">
+                <div class="text-red-500">일</div>
+                <div>월</div>
+                <div>화</div>
+                <div>수</div>
+                <div>목</div>
+                <div>금</div>
+                <div class="text-blue-500">토</div>
+            </div>
+            <div id="calendar-body" class="grid grid-cols-7 text-center p-2 gap-1">
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -175,11 +195,20 @@
 
             const eventList = document.getElementById('event-list');
             const filterButtons = document.getElementById('filter-buttons');
-            const modal = document.getElementById('event-modal');
+            const eventModal = document.getElementById('event-modal');
             const modalBackdrop = document.getElementById('modal-backdrop');
             const modalCloseBtn = document.getElementById('modal-close-btn');
             const modalTitle = document.getElementById('modal-title');
             const modalBody = document.getElementById('modal-body');
+            let lastEventCardRect = null;
+            
+            const dateCard = document.getElementById('date-card');
+            const calendarModal = document.getElementById('calendar-modal');
+            const calendarBackdrop = document.getElementById('calendar-modal-backdrop');
+            const calendarCloseBtn = document.getElementById('calendar-close-btn');
+            const calendarTitle = document.getElementById('calendar-title');
+            const calendarBody = document.getElementById('calendar-body');
+            let lastDateCardRect = null;
 
             function renderEvents(filter = 'all') {
                 eventList.innerHTML = '';
@@ -187,7 +216,7 @@
                 
                 filteredEvents.forEach(event => {
                     const card = document.createElement('div');
-                    card.className = 'event-card bg-white rounded-lg shadow-md p-6 border-l-4';
+                    card.className = 'event-card animated-item bg-white rounded-lg shadow-md p-6 border-l-4 flex flex-col';
                     card.style.borderColor = '#e76f51';
                     card.dataset.id = event.id;
 
@@ -196,18 +225,21 @@
                             <p class="text-sm font-bold" style="color: #2a9d8f;">${event.category}</p>
                             <h4 class="text-xl font-bold mt-1" style="color: #264653;">${event.name}</h4>
                             <p class="text-sm font-semibold my-2" style="color: #264653b3;">${event.age}</p>
-                            ${event.note ? `<p class="text-sm font-bold mb-2" style="color: #e76f51;">${event.note}</p>` : ''}
                             <p class="text-base" style="color: #264653;">${event.desc}</p>
                         </div>
+                        ${event.note ? `<div class="mt-4"><span class="inline-block bg-[#e76f51] text-white text-xs font-bold px-3 py-1 rounded-full">${event.note}</span></div>` : ''}
+                        <div class="text-right mt-4 font-bold" style="color: #f4a261;">자세히 보기 →</div>
                     `;
                     eventList.appendChild(card);
                 });
+                observeElements(); 
             }
 
-            function openModal(eventId) {
+            function openEventModal(eventId, cardRect) {
                 const event = eventData.find(e => e.id === eventId);
                 if (!event) return;
                 
+                lastEventCardRect = cardRect;
                 modalTitle.textContent = event.name;
                 modalBody.innerHTML = `
                     <div class="mb-6">
@@ -226,13 +258,104 @@
                     </div>
                 `;
                 
-                modal.classList.remove('hidden');
                 modalBackdrop.classList.remove('hidden');
+                eventModal.style.left = `${cardRect.left}px`;
+                eventModal.style.top = `${cardRect.top}px`;
+                eventModal.style.width = `${cardRect.width}px`;
+                eventModal.style.height = `${cardRect.height}px`;
+                eventModal.classList.remove('hidden');
+                
+                requestAnimationFrame(() => {
+                    modalBackdrop.style.opacity = '1';
+                    eventModal.classList.add('open');
+                    const targetWidth = Math.min(800, window.innerWidth * 0.9);
+                    const targetHeight = Math.min(window.innerHeight * 0.8, 600);
+                    eventModal.style.left = `${(window.innerWidth - targetWidth) / 2}px`;
+                    eventModal.style.top = `${(window.innerHeight - targetHeight) / 2}px`;
+                    eventModal.style.width = `${targetWidth}px`;
+                    eventModal.style.height = `${targetHeight}px`;
+                });
             }
 
-            function closeModal() {
-                modal.classList.add('hidden');
-                modalBackdrop.classList.add('hidden');
+            function closeEventModal() {
+                if (!lastEventCardRect) return;
+
+                modalBackdrop.style.opacity = '0';
+                eventModal.classList.remove('open');
+                eventModal.style.left = `${lastEventCardRect.left}px`;
+                eventModal.style.top = `${lastEventCardRect.top}px`;
+                eventModal.style.width = `${lastEventCardRect.width}px`;
+                eventModal.style.height = `${lastEventCardRect.height}px`;
+
+                eventModal.addEventListener('transitionend', function handler() {
+                    eventModal.classList.add('hidden');
+                    modalBackdrop.classList.add('hidden');
+                    lastEventCardRect = null;
+                    eventModal.removeEventListener('transitionend', handler);
+                }, { once: true });
+            }
+
+            function generateCalendar(year, month) {
+                calendarBody.innerHTML = '';
+                calendarTitle.textContent = `${year}년 ${month + 1}월`;
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                for (let i = 0; i < firstDay; i++) {
+                    calendarBody.appendChild(document.createElement('div'));
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.className = 'py-2 w-10 h-10 flex items-center justify-center';
+                    dayCell.textContent = day;
+
+                    if (year === 2025 && month === 7 && (day === 9 || day === 10)) {
+                        dayCell.classList.add('bg-[#e76f51]', 'text-white', 'font-bold', 'rounded-full');
+                    }
+                    calendarBody.appendChild(dayCell);
+                }
+            }
+            
+            function openCalendar(cardRect) {
+                lastDateCardRect = cardRect;
+                generateCalendar(2025, 7);
+                
+                calendarBackdrop.classList.remove('hidden');
+                calendarModal.style.left = `${cardRect.left}px`;
+                calendarModal.style.top = `${cardRect.top}px`;
+                calendarModal.style.width = `${cardRect.width}px`;
+                calendarModal.style.height = `${cardRect.height}px`;
+                calendarModal.classList.remove('hidden');
+
+                requestAnimationFrame(() => {
+                    calendarBackdrop.style.opacity = '1';
+                    calendarModal.classList.add('open');
+                    const targetWidth = Math.min(384, window.innerWidth * 0.9);
+                    const targetHeight = calendarModal.querySelector('div').offsetHeight;
+                    calendarModal.style.left = `${(window.innerWidth - targetWidth) / 2}px`;
+                    calendarModal.style.top = `${(window.innerHeight - targetHeight) / 2}px`;
+                    calendarModal.style.width = `${targetWidth}px`;
+                    calendarModal.style.height = `${targetHeight}px`;
+                });
+            }
+
+            function closeCalendar() {
+                if (!lastDateCardRect) return;
+
+                calendarBackdrop.style.opacity = '0';
+                calendarModal.classList.remove('open');
+                calendarModal.style.left = `${lastDateCardRect.left}px`;
+                calendarModal.style.top = `${lastDateCardRect.top}px`;
+                calendarModal.style.width = `${lastDateCardRect.width}px`;
+                calendarModal.style.height = `${lastDateCardRect.height}px`;
+
+                calendarModal.addEventListener('transitionend', function handler() {
+                    calendarModal.classList.add('hidden');
+                    calendarBackdrop.classList.add('hidden');
+                    lastDateCardRect = null;
+                    calendarModal.removeEventListener('transitionend', handler);
+                }, { once: true });
             }
             
             filterButtons.addEventListener('click', (e) => {
@@ -247,14 +370,35 @@
             eventList.addEventListener('click', (e) => {
                 const card = e.target.closest('.event-card');
                 if (card) {
-                    openModal(card.dataset.id);
+                    const cardRect = card.getBoundingClientRect();
+                    openEventModal(card.dataset.id, cardRect);
                 }
             });
-
-            modalCloseBtn.addEventListener('click', closeModal);
-            modalBackdrop.addEventListener('click', closeModal);
             
+            dateCard.addEventListener('click', (e) => {
+                 const cardRect = e.currentTarget.getBoundingClientRect();
+                 openCalendar(cardRect);
+            });
+
+            modalCloseBtn.addEventListener('click', closeEventModal);
+            modalBackdrop.addEventListener('click', closeEventModal);
+            calendarCloseBtn.addEventListener('click', closeCalendar);
+            calendarBackdrop.addEventListener('click', closeCalendar);
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            function observeElements() {
+                document.querySelectorAll('.animated-item').forEach(el => observer.observe(el));
+            }
+
             renderEvents();
+            observeElements();
         });
     </script>
 </body>
