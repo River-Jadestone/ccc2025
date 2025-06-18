@@ -43,6 +43,8 @@
             border: 4px solid #f4a261; /* 주황색 테두리 */
         }
         .event-card {
+            display: flex;
+            flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
@@ -165,7 +167,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const eventData = [
-                { id: 'rookie-challenge', name: '루키챌린지', age: '초등 1-2학년', category: '창의 미션', desc: '컬링과 비슷한 방식으로, 로봇을 이용해 퍽(공)을 과녁의 중심에 가깝게 보내는 경기입니다.', tags: ['rookie'], details: { mission: '컬링처럼 로봇을 이용해 지정된 퍽(공)을 과녁 중앙에 가장 가깝게 보내는 경기입니다.', rules: ['로봇은 출발 후 완전히 자율적으로 움직여야 합니다.', '대회 현장에서 로봇을 조립하고 프로그램을 작성해야 합니다.', '팀 당 6개의 퍽(공)이 주어지며, 모든 턴이 끝난 후 점수를 계산합니다.', '과녁 중앙에 가까울수록 높은 점수를 획득합니다 (노랑 20점, 빨강 15점, 하양 10점, 파랑 5점).'], field: '약 750mm x 1600mm 크기의 흰색 경기장 위에 동심원 모양의 과녁이 그려져 있습니다.' } },
+                { id: 'rookie-challenge', name: '루키챌린지', age: '초등 1-2학년', category: '창의 미션', note: '토요일 하루 진행', desc: '컬링과 비슷한 방식으로, 로봇을 이용해 퍽(공)을 과녁의 중심에 가깝게 보내는 경기입니다.', tags: ['rookie'], details: { mission: '컬링처럼 로봇을 이용해 지정된 퍽(공)을 과녁 중앙에 가장 가깝게 보내는 경기입니다.', rules: ['로봇은 출발 후 완전히 자율적으로 움직여야 합니다.', '대회 현장에서 로봇을 조립하고 프로그램을 작성해야 합니다.', '팀 당 6개의 퍽(공)이 주어지며, 모든 턴이 끝난 후 점수를 계산합니다.', '과녁 중앙에 가까울수록 높은 점수를 획득합니다 (노랑 20점, 빨강 15점, 하양 10점, 파랑 5점).'], field: '약 750mm x 1600mm 크기의 흰색 경기장 위에 동심원 모양의 과녁이 그려져 있습니다.' } },
                 { id: 'rescue-basic', name: '레스큐 베이직', age: '초등 3-6학년', category: '로봇 구조', desc: '실제 로봇을 활용하여 주어진 구조 미션을 해결하는 종목입니다.', tags: ['u12', 'integrated'], details: { mission: '라인을 따라 이동하며 장애물을 극복하고 조난자를 지정된 장소로 운반하는 미션입니다.', rules: ['로봇은 완전히 자율적으로 작동해야 합니다.', '검은색 라인을 따라 주행해야 합니다.', '장애물, 경사로 등 다양한 환경을 통과해야 합니다.' , '조난자를 안전하게 구조하여 대피 구역으로 옮겨야 합니다.'], field: '검은색 라인과 다양한 장애물(경사로, 험로 등)으로 구성된 경기장' } },
                 { id: 'rescue-maze', name: '레스큐 메이즈 베이직', age: '초등 3-6학년', category: '로봇 구조', desc: '복잡한 미로를 탐색하며 인명을 구조하는 임무에 도전합니다.', tags: ['u12', 'integrated'], details: { mission: '미로를 자율적으로 탐색하여 조난자를 찾아내고, 출발 지점으로 귀환하는 미션입니다.', rules: ['로봇은 스스로 미로 지도를 작성하며 탐색해야 합니다.', '벽과의 충돌을 최소화해야 합니다.', '조난자(열 또는 색상 센서로 감지)를 발견하면 신호를 보내야 합니다.', '탐색 완료 후 출발 지점으로 돌아와야 합니다.'], field: '벽으로 구성된 복잡한 미로 형태의 경기장' } },
                 { id: 'rescue-line', name: '레스큐 라인', age: '초등 3학년 이상', category: '로봇 구조', desc: '라인트레이싱 기술을 활용하여 신속하고 정확하게 구조 미션을 완료합니다.', tags: ['integrated'], details: { mission: '검은색 선으로 이루어진 경로를 따라가며, 중간에 놓인 조난자(공)를 수거하여 지정된 구조 구역으로 옮기는 미션입니다.', rules: ['로봇은 검은색 선을 벗어나지 않고 주행해야 합니다.', '경로 상의 교차로나 끊어진 길 등 다양한 상황을 판단하여 극복해야 합니다.', '조난자를 안전하게 수집하고 지정된 위치에 정확히 놓아야 합니다.', '가장 빠른 시간 안에 미션을 완료해야 합니다.'], field: '흰색 바닥에 검은색 선으로 그려진 트랙, 교차로 및 다양한 형태의 조난자 포함' } }
@@ -190,10 +192,13 @@
                     card.dataset.id = event.id;
 
                     card.innerHTML = `
-                        <p class="text-sm font-bold" style="color: #2a9d8f;">${event.category}</p>
-                        <h4 class="text-xl font-bold mt-1" style="color: #264653;">${event.name}</h4>
-                        <p class="text-sm font-semibold my-2" style="color: #264653b3;">${event.age}</p>
-                        <p class="text-base" style="color: #264653;">${event.desc}</p>
+                        <div class="flex-grow">
+                            <p class="text-sm font-bold" style="color: #2a9d8f;">${event.category}</p>
+                            <h4 class="text-xl font-bold mt-1" style="color: #264653;">${event.name}</h4>
+                            <p class="text-sm font-semibold my-2" style="color: #264653b3;">${event.age}</p>
+                            ${event.note ? `<p class="text-sm font-bold mb-2" style="color: #e76f51;">${event.note}</p>` : ''}
+                            <p class="text-base" style="color: #264653;">${event.desc}</p>
+                        </div>
                     `;
                     eventList.appendChild(card);
                 });
