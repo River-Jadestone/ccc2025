@@ -50,6 +50,13 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+        .info-card {
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
         .filter-btn.active {
             background-color: #2a9d8f; /* 활성 버튼 청록색 */
             color: white;
@@ -72,19 +79,20 @@
         </header>
 
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center mb-16">
-            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #2a9d8f;">
+            <div class="info-card bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #2a9d8f;">
                 <p class="text-5xl mb-2">🗓️</p>
                 <p class="text-xl font-bold" style="color: #264653;">2025년 8월 9일 ~ 10일</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e76f51;">
+            <a href="https://map.kakao.com/link/search/알펜시아 컨벤션센터" target="_blank" rel="noopener noreferrer" class="info-card block bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e76f51;">
                 <p class="text-5xl mb-2">📍</p>
                 <p class="text-xl font-bold" style="color: #264653;">알펜시아 컨벤션센터</p>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #f4a261;">
+                <p class="text-sm mt-1" style="color: #e76f51;">(지도에서 위치 보기)</p>
+            </a>
+            <div class="info-card bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #f4a261;">
                 <p class="text-5xl mb-2">👥</p>
                 <p class="text-xl font-bold" style="color: #264653;">초·중·고 및 청소년</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e9c46a;">
+            <div class="info-card bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e9c46a;">
                 <p class="text-5xl mb-2">🏢</p>
                 <p class="text-xl font-bold" style="color: #264653;">(사)한국로보컵협회<br>& 로봇신문</p>
             </div>
