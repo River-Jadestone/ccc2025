@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한국창의코딩대회 2025 인터랙티브 인포그래픽</title>
+    <title>한국창의코딩대회 2025 | 도안러닝센터</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <!-- Chosen Palette: Brilliant Blues -->
-    <!-- Application Structure Plan: 이 SPA는 사용자가 정보를 단계적으로 발견하도록 설계된 단일 스크롤 페이지입니다. 'Hero 섹션'에서 즉각적으로 주제를 인지시키고, '핵심 정보 대시보드'에서 가장 중요한 정보를 빠르게 전달합니다. 그 다음 '대회 종목 분석' 섹션에서는 도넛 차트로 전체적인 종목 구성을 보여주고, 수평 막대 차트로 참가 연령별 종목 수를 비교하여 사용자가 자신에게 맞는 정보를 쉽게 찾도록 돕습니다. 마지막으로 '대회 일정 타임라인'과 '특별 기회' 섹션을 통해 세부 정보를 시각적으로 전달합니다. 이 구조는 정적인 문서를 읽는 것보다 훨씬 더 능동적이고 흥미로운 정보 탐색 경험을 제공하기 위해 채택되었습니다. -->
+    <!-- Chosen Palette: Doan Learning Center Logo Theme -->
+    <!-- Application Structure Plan: 이 SPA는 사용자가 정보를 단계적으로 발견하도록 설계된 단일 스크롤 페이지입니다. 'Hero 섹션'에서 즉각적으로 주제를 인지시키고, '핵심 정보 대시보드'에서 가장 중요한 정보를 빠르게 전달합니다. 그 다음 '대회 종목 둘러보기' 섹션에서 사용자가 필터를 통해 직접 자신에게 맞는 종목을 찾도록 유도하며, 각 종목 카드를 클릭하면 상세 정보를 담은 모달(팝업)이 나타나도록 구현했습니다. 마지막으로 '대회 일정 타임라인'과 '특별 기회' 섹션을 통해 세부 정보를 시각적으로 전달합니다. 이 구조는 정적인 문서를 읽는 것보다 훨씬 더 능동적이고 흥미로운 정보 탐색 경험을 제공하기 위해 채택되었습니다. -->
     <!-- Visualization & Content Choices: 
         - 핵심 정보 (날짜, 장소 등): Goal: Inform -> Viz: 아이콘과 큰 텍스트를 사용한 카드 -> Justification: 가장 중요한 정보를 빠르고 쉽게 인식할 수 있음. Method: HTML/Tailwind.
-        - 대회 종목 카테고리 분포: Goal: Compare (Proportions) -> Viz: 도넛 차트 -> Justification: 전체에서 각 종목 카테고리가 차지하는 비중을 시각적으로 명확하게 보여줌. Library: Chart.js/Canvas.
-        - 연령대별 참가 가능 종목 수: Goal: Compare (Quantities) -> Viz: 수평 막대 차트 -> Justification: 여러 연령 그룹 간의 종목 수를 직관적으로 비교하는 데 가장 효과적임. Library: Chart.js/Canvas.
+        - 대회 종목 목록: Goal: Organize/Explore -> Viz: 필터링 가능한 카드 목록. 클릭 시 상세 정보 모달(팝업) 표시 -> Justification: 사용자가 능동적으로 자신에게 맞는 정보를 찾고, 심층 정보까지 탐색할 수 있도록 상호작용성을 극대화함. Method: HTML/Tailwind/JS.
         - 대회 일정: Goal: Change (over time) -> Viz: 수직 타임라인 -> Justification: 이틀간의 이벤트 순서를 목록보다 시각적으로 흥미롭게 전달함. Method: HTML/Tailwind.
         - CONFIRMATION: NO SVG/Mermaid used.
     -->
@@ -24,24 +22,11 @@
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #f0f4f8; /* A light, neutral background from a similar palette */
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
+            background-color: #fefae0; /* 로고와 어울리는 따뜻한 크림색 배경 */
+            color: #264653; /* 로고의 어두운 청록색을 기본 텍스트 색상으로 사용 */
         }
         .gradient-text {
-            background: linear-gradient(90deg, #0077B6, #00B4D8);
+            background: linear-gradient(90deg, #2a9d8f, #e76f51); /* 청록색과 산호색 그라데이션 */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -55,18 +40,25 @@
             height: 20px;
             border-radius: 50%;
             background-color: white;
-            border: 4px solid #00B4D8;
+            border: 4px solid #f4a261; /* 주황색 테두리 */
         }
         .event-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
         .event-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         .filter-btn.active {
-            background-color: #0077B6;
+            background-color: #2a9d8f; /* 활성 버튼 청록색 */
             color: white;
+        }
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
         }
     </style>
 </head>
@@ -76,241 +68,178 @@
 
         <header class="text-center my-8 md:my-16">
             <h1 class="text-4xl md:text-6xl font-black gradient-text">한국창의코딩대회 2025</h1>
-            <p class="mt-4 text-lg md:text-xl text-gray-600">미래를 코딩하는 창의 인재들의 축제, 모든 것을 한눈에!</p>
+            <p class="mt-4 text-lg md:text-xl" style="color: #264653;">미래를 코딩하는 창의 인재들의 축제, 모든 것을 한눈에!</p>
         </header>
 
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center mb-16">
-            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#0077B6]">
+            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #2a9d8f;">
                 <p class="text-5xl mb-2">🗓️</p>
-                <p class="text-xl font-bold text-[#004AAD]">2025년 8월 9일 ~ 10일</p>
+                <p class="text-xl font-bold" style="color: #264653;">2025년 8월 9일 ~ 10일</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#00B4D8]">
+            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e76f51;">
                 <p class="text-5xl mb-2">📍</p>
-                <p class="text-xl font-bold text-[#004AAD]">알펜시아 컨벤션센터</p>
+                <p class="text-xl font-bold" style="color: #264653;">알펜시아 컨벤션센터</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#90E0EF]">
+            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #f4a261;">
                 <p class="text-5xl mb-2">👥</p>
-                <p class="text-xl font-bold text-[#004AAD]">초·중·고 및 청소년</p>
+                <p class="text-xl font-bold" style="color: #264653;">초·중·고 및 청소년</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#CAF0F8]">
+            <div class="bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e9c46a;">
                 <p class="text-5xl mb-2">🏢</p>
-                <p class="text-xl font-bold text-[#004AAD] leading-tight">(사)한국로보컵협회<br>& 로봇신문</p>
+                <p class="text-xl font-bold" style="color: #264653;">(사)한국로보컵협회<br>& 로봇신문</p>
             </div>
         </section>
 
         <section class="mb-16">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold mb-2">한눈에 보는 대회 종목</h2>
-                <p class="text-gray-600 max-w-3xl mx-auto">대회는 어떤 분야로 구성되어 있을까요? 아래 차트들은 전체 종목의 카테고리별 분포와 연령대별 참가 가능 종목 수를 보여줍니다. 자신에게 맞는 종목을 찾아보세요.</p>
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
-                <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-center mb-4">종목 카테고리 분포</h3>
-                    <div class="chart-container h-[300px] md:h-[350px]">
-                        <canvas id="categoriesChart"></canvas>
-                    </div>
-                </div>
-                <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-center mb-4">연령대별 참가 가능 종목 수</h3>
-                     <div class="chart-container h-[300px] md:h-[350px]">
-                        <canvas id="ageGroupChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-16">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold mb-2">대회 종목 둘러보기</h2>
-                <p class="text-gray-600 max-w-3xl mx-auto">아래 필터를 사용하여 관심있는 연령대의 종목만 모아볼 수 있습니다. 각 카드를 클릭하면 더 자세한 내용을 확인할 수 있습니다.</p>
+                <h2 class="text-3xl font-bold mb-2" style="color: #264653;">대회 종목 둘러보기</h2>
+                <p class="max-w-3xl mx-auto" style="color: #264653;">아래 필터를 사용하여 관심있는 연령대의 종목만 모아볼 수 있습니다.</p>
+                <p class="max-w-3xl mx-auto" style="color: #264653;">각 카드를 클릭하면 더 자세한 내용을 확인할 수 있습니다.</p>
             </div>
             <div id="filter-buttons" class="flex flex-wrap justify-center gap-2 mb-8">
                 <button class="filter-btn active py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="all">전체보기</button>
                 <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="u12">초등부 (U12)</button>
-                <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="u19">중/고등부 (U19)</button>
                 <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="rookie">루키 (초1-2)</button>
                 <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="integrated">연령통합</button>
             </div>
-            <div id="event-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="event-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             </div>
         </section>
 
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
              <div class="bg-white rounded-lg shadow-md p-8">
-                <h2 class="text-3xl font-bold text-center mb-8">대회 일정</h2>
-                <div class="relative pl-8 border-l-4 border-[#90E0EF]">
+                <h2 class="text-3xl font-bold text-center mb-8" style="color: #264653;">대회 일정</h2>
+                <div class="relative pl-8 border-l-4" style="border-color: #f4a261;">
                     <div class="mb-12 timeline-item">
-                        <h3 class="text-xl font-bold text-[#0077B6]">8월 9일 (토) - 예선</h3>
-                        <p class="text-gray-600 mt-2">루키챌린지 및 각 종목별 예선 경기가 시작됩니다. 참가자들은 그동안 갈고닦은 실력을 처음으로 선보이는 날입니다.</p>
+                        <h3 class="text-xl font-bold" style="color: #2a9d8f;">8월 9일 (토) - 예선</h3>
+                        <p class="mt-2" style="color: #264653;">루키챌린지 및 각 종목별 예선 경기가 시작됩니다. 참가자들은 그동안 갈고닦은 실력을 처음으로 선보이는 날입니다.</p>
                     </div>
                     <div class="timeline-item">
-                        <h3 class="text-xl font-bold text-[#0077B6]">8월 10일 (일) - 본선 및 시상</h3>
-                        <p class="text-gray-600 mt-2">예선을 통과한 팀들이 최종 우승을 위해 격돌하는 본선 경기가 진행됩니다. 모든 심사가 완료된 후 시상식이 열립니다.</p>
+                        <h3 class="text-xl font-bold" style="color: #2a9d8f;">8월 10일 (일) - 본선 및 시상</h3>
+                        <p class="mt-2" style="color: #264653;">예선을 통과한 팀들이 최종 우승을 위해 격돌하는 본선 경기가 진행됩니다. 모든 심사가 완료된 후 시상식이 열립니다.</p>
                     </div>
                 </div>
             </div>
-            <div class="bg-gradient-to-br from-[#0077B6] to-[#00B4D8] text-white rounded-lg shadow-xl p-8 flex flex-col justify-center items-center text-center">
+            <div class="rounded-lg shadow-xl p-8 flex flex-col justify-center items-center text-center text-white" style="background-color: #2a9d8f;">
                 <h2 class="text-3xl font-black mb-4">🌍 세계로 가는 특별한 기회!</h2>
                 <p class="text-lg max-w-md mx-auto">
-                    본 대회는 <strong class="font-bold text-[#CAF0F8] underline">RoboCup Asia-Pacific Abudhabi 2025</strong>의 대한민국 대표 선발전을 겸합니다.
+                    본 대회는 <strong class="font-bold underline" style="color: #e9c46a;">RoboCup Asia-Pacific Abudhabi 2025</strong>의 대한민국 대표 선발전을 겸합니다.
                     세계 무대에서 여러분의 꿈을 펼칠 수 있는 절호의 기회를 놓치지 마세요!
                 </p>
             </div>
         </section>
 
-        <footer class="text-center mt-12 py-6 border-t border-gray-300">
-            <p class="font-bold text-lg">더 많은 정보와 접수 안내는 공식 홈페이지를 확인하세요.</p>
-            <div class="flex justify-center gap-8 mt-4">
-                <a href="https://robocup.or.kr" target="_blank" class="text-[#0077B6] hover:text-[#004AAD] font-bold transition-colors">한국로보컵협회</a>
-                <a href="https://www.irobotnews.com" target="_blank" class="text-[#0077B6] hover:text-[#004AAD] font-bold transition-colors">로봇신문</a>
+        <footer class="text-center mt-12 py-8 border-t" style="border-color: #e9c46a;">
+            <div class="flex flex-col items-center justify-center gap-4">
+                <img src="https://i.imgur.com/HnTF6jn.png$0" alt="도안러닝센터 로고" class="h-16">
+                <p class="font-bold text-xl" style="color: #264653;">대회 참가 문의</p>
+                <p class="text-2xl font-black" style="color: #e76f51;">도안러닝센터 042-825-8053</p>
             </div>
-            <p class="mt-6 text-sm text-gray-500">
-                본 인포그래픽은 제공된 정보를 바탕으로 제작되었습니다. 대회 계획은 주최 측 사정에 따라 변경될 수 있습니다.
-            </p>
         </footer>
     </div>
 
+    <div id="modal-backdrop" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+    <div id="event-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-11/12 md:w-3/4 lg:w-1/2 max-w-4xl">
+        <div class="modal-content bg-white rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 id="modal-title" class="text-2xl font-bold" style="color: #264653;"></h3>
+                <button id="modal-close-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+            <div id="modal-body" class="p-6 sm:p-8">
+            </div>
+        </div>
+    </div>
+
+
     <script>
-        const brilliantBlues = ['#004AAD', '#0077B6', '#00B4D8', '#90E0EF', '#CAF0F8'];
+        document.addEventListener('DOMContentLoaded', () => {
+            const eventData = [
+                { id: 'rookie-challenge', name: '루키챌린지', age: '초등 1-2학년', category: '창의 미션', desc: '컬링과 비슷한 방식으로, 로봇을 이용해 퍽(공)을 과녁의 중심에 가깝게 보내는 경기입니다.', tags: ['rookie'], details: { mission: '컬링처럼 로봇을 이용해 지정된 퍽(공)을 과녁 중앙에 가장 가깝게 보내는 경기입니다.', rules: ['로봇은 출발 후 완전히 자율적으로 움직여야 합니다.', '대회 현장에서 로봇을 조립하고 프로그램을 작성해야 합니다.', '팀 당 6개의 퍽(공)이 주어지며, 모든 턴이 끝난 후 점수를 계산합니다.', '과녁 중앙에 가까울수록 높은 점수를 획득합니다 (노랑 20점, 빨강 15점, 하양 10점, 파랑 5점).'], field: '약 750mm x 1600mm 크기의 흰색 경기장 위에 동심원 모양의 과녁이 그려져 있습니다.' } },
+                { id: 'rescue-basic', name: '레스큐 베이직', age: 'U12', category: '로봇 구조', desc: '실제 로봇을 활용하여 주어진 구조 미션을 해결하는 종목입니다.', tags: ['u12'], details: { mission: '라인을 따라 이동하며 장애물을 극복하고 조난자를 지정된 장소로 운반하는 미션입니다.', rules: ['로봇은 완전히 자율적으로 작동해야 합니다.', '검은색 라인을 따라 주행해야 합니다.', '장애물, 경사로 등 다양한 환경을 통과해야 합니다.' , '조난자를 안전하게 구조하여 대피 구역으로 옮겨야 합니다.'], field: '검은색 라인과 다양한 장애물(경사로, 험로 등)으로 구성된 경기장' } },
+                { id: 'rescue-maze', name: '레스큐 메이즈 베이직', age: 'U12', category: '로봇 구조', desc: '복잡한 미로를 탐색하며 인명을 구조하는 임무에 도전합니다.', tags: ['u12'], details: { mission: '미로를 자율적으로 탐색하여 조난자를 찾아내고, 출발 지점으로 귀환하는 미션입니다.', rules: ['로봇은 스스로 미로 지도를 작성하며 탐색해야 합니다.', '벽과의 충돌을 최소화해야 합니다.', '조난자(열 또는 색상 센서로 감지)를 발견하면 신호를 보내야 합니다.', '탐색 완료 후 출발 지점으로 돌아와야 합니다.'], field: '벽으로 구성된 복잡한 미로 형태의 경기장' } },
+                { id: 'rescue-line', name: '레스큐 라인', age: '연령통합', category: '로봇 구조', desc: '라인트레이싱 기술을 활용하여 신속하고 정확하게 구조 미션을 완료합니다.', tags: ['integrated'], details: { mission: '검은색 선으로 이루어진 경로를 따라가며, 중간에 놓인 조난자(공)를 수거하여 지정된 구조 구역으로 옮기는 미션입니다.', rules: ['로봇은 검은색 선을 벗어나지 않고 주행해야 합니다.', '경로 상의 교차로나 끊어진 길 등 다양한 상황을 판단하여 극복해야 합니다.', '조난자를 안전하게 수집하고 지정된 위치에 정확히 놓아야 합니다.', '가장 빠른 시간 안에 미션을 완료해야 합니다.'], field: '흰색 바닥에 검은색 선으로 그려진 트랙, 교차로 및 다양한 형태의 조난자 포함' } }
+            ];
 
-        const tooltipTitleCallback = (tooltipItems) => {
-            const item = tooltipItems[0];
-            let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) {
-                return label.join(' ');
-            } else {
-                return label;
+            const eventList = document.getElementById('event-list');
+            const filterButtons = document.getElementById('filter-buttons');
+            const modal = document.getElementById('event-modal');
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+
+            function renderEvents(filter = 'all') {
+                eventList.innerHTML = '';
+                const filteredEvents = filter === 'all' ? eventData : eventData.filter(e => e.tags.includes(filter));
+                
+                filteredEvents.forEach(event => {
+                    const card = document.createElement('div');
+                    card.className = 'event-card bg-white rounded-lg shadow-md p-6 border-l-4';
+                    card.style.borderColor = '#e76f51';
+                    card.dataset.id = event.id;
+
+                    card.innerHTML = `
+                        <p class="text-sm font-bold" style="color: #2a9d8f;">${event.category}</p>
+                        <h4 class="text-xl font-bold mt-1" style="color: #264653;">${event.name}</h4>
+                        <p class="text-sm font-semibold my-2" style="color: #264653b3;">${event.age}</p>
+                        <p class="text-base" style="color: #264653;">${event.desc}</p>
+                    `;
+                    eventList.appendChild(card);
+                });
             }
-        };
 
-        const sharedChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#374151',
-                        font: {
-                            family: "'Noto Sans KR', sans-serif",
-                            size: 14,
-                        }
-                    }
-                },
-                tooltip: {
-                    backgroundColor: '#111827',
-                    titleFont: { family: "'Noto Sans KR', sans-serif", size: 14, weight: 'bold' },
-                    bodyFont: { family: "'Noto Sans KR', sans-serif", size: 12 },
-                    padding: 12,
-                    cornerRadius: 6,
-                    callbacks: {
-                        title: tooltipTitleCallback
-                    }
-                }
-            }
-        };
-
-        const categoriesData = {
-            labels: ['레스큐(구조)', '코스페이스(가상)', 'Soccer(축구)', '온스테이지', '루키챌린지'],
-            datasets: [{
-                label: '종목 수',
-                data: [3, 2, 2, 1, 1],
-                backgroundColor: brilliantBlues,
-                borderColor: '#f0f4f8',
-                borderWidth: 3,
-                hoverOffset: 8
-            }]
-        };
-
-        const categoriesChartCtx = document.getElementById('categoriesChart').getContext('2d');
-        new Chart(categoriesChartCtx, {
-            type: 'doughnut',
-            data: categoriesData,
-            options: {
-                ...sharedChartOptions,
-                plugins: {
-                    ...sharedChartOptions.plugins,
-                    legend: { ...sharedChartOptions.plugins.legend, position: 'top' }
-                }
-            }
-        });
-
-        const ageGroupData = {
-            labels: ['초등 1-2학년', '초등부 (U12)', '중/고등부 (U19)', '연령통합'],
-            datasets: [{
-                label: '종목 수',
-                data: [1, 4, 4, 2],
-                backgroundColor: '#00B4D8',
-                borderRadius: 4,
-                barThickness: 25,
-            }]
-        };
-        
-        const ageGroupChartCtx = document.getElementById('ageGroupChart').getContext('2d');
-        new Chart(ageGroupChartCtx, {
-            type: 'bar',
-            data: ageGroupData,
-            options: {
-                ...sharedChartOptions,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: { display: false },
-                        ticks: { stepSize: 1, color: '#4b5563' }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: { color: '#4b5563', font: { weight: 'bold' } }
-                    }
-                },
-                plugins: {
-                    ...sharedChartOptions.plugins,
-                    legend: { display: false }
-                }
-            }
-        });
-
-        const eventData = [
-            { name: '루키챌린지', age: '초등 1-2학년', category: '창의 미션', desc: '창의적인 로봇 미션을 당일 현장에서 수행하며 문제 해결 능력을 키웁니다.', tags: ['rookie'] },
-            { name: '코스페이스 자율주행 챌린지', age: 'U12, U19', category: '가상 코딩', desc: '가상 공간에서 펼쳐지는 자율주행 로봇의 정교한 기술 대결입니다.', tags: ['u12', 'u19'] },
-            { name: '코스페이스 레스큐', age: 'U12, U19', category: '가상 코딩', desc: '가상의 재난 상황에서 인명을 구조하는 코딩 미션을 수행합니다.', tags: ['u12', 'u19'] },
-            { name: '레스큐 베이직', age: 'U12', category: '로봇 구조', desc: '실제 로봇을 활용하여 주어진 구조 미션을 해결하는 종목입니다.', tags: ['u12'] },
-            { name: '레스큐 메이즈 베이직', age: 'U12', category: '로봇 구조', desc: '복잡한 미로를 탐색하며 인명을 구조하는 임무에 도전합니다.', tags: ['u12'] },
-            { name: '레스큐 라인', age: '연령통합', category: '로봇 구조', desc: '라인트레이싱 기술을 활용하여 신속하고 정확하게 구조 미션을 완료합니다.', tags: ['integrated'] },
-            { name: '온스테이지', age: '연령통합', category: '로봇 퍼포먼스', desc: '주제에 맞춰 제작한 로봇으로 창의적인 퍼포먼스를 선보이고 발표합니다.', tags: ['integrated'] },
-            { name: 'Soccer Light Weight', age: 'U19', category: '로봇 축구', desc: '소형 로봇들의 빠르고 전략적인 움직임이 돋보이는 축구 경기입니다.', tags: ['u19'] },
-            { name: 'Soccer Open', age: 'U19', category: '로봇 축구', desc: '자유롭게 설계한 로봇으로 축구 실력의 최강자를 가리는 무대입니다.', tags: ['u19'] },
-        ];
-
-        const eventList = document.getElementById('event-list');
-        const filterButtons = document.getElementById('filter-buttons');
-
-        function renderEvents(filter = 'all') {
-            eventList.innerHTML = '';
-            const filteredEvents = filter === 'all' ? eventData : eventData.filter(e => e.tags.includes(filter));
-            
-            filteredEvents.forEach(event => {
-                const card = document.createElement('div');
-                card.className = 'event-card bg-white rounded-lg shadow-md p-6 border-l-4 border-[#00B4D8]';
-                card.innerHTML = `
-                    <p class="text-sm font-bold text-[#0077B6]">${event.category}</p>
-                    <h4 class="text-xl font-bold mt-1">${event.name}</h4>
-                    <p class="text-sm text-gray-500 font-semibold my-2">${event.age}</p>
-                    <p class="text-gray-700 text-base">${event.desc}</p>
+            function openModal(eventId) {
+                const event = eventData.find(e => e.id === eventId);
+                if (!event) return;
+                
+                modalTitle.textContent = event.name;
+                modalBody.innerHTML = `
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold border-b-2 pb-2 mb-3" style="color: #2a9d8f; border-color: #f4a261;">🎯 미션 목표</h4>
+                        <p style="color: #264653;">${event.details.mission}</p>
+                    </div>
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold border-b-2 pb-2 mb-3" style="color: #2a9d8f; border-color: #f4a261;">📜 주요 규정</h4>
+                        <ul class="list-disc list-inside space-y-2" style="color: #264653;">
+                            ${event.details.rules.map(rule => `<li>${rule}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold border-b-2 pb-2 mb-3" style="color: #2a9d8f; border-color: #f4a261;">🏞️ 경기 환경</h4>
+                        <p style="color: #264653;">${event.details.field}</p>
+                    </div>
                 `;
-                eventList.appendChild(card);
-            });
-        }
-        
-        filterButtons.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') {
-                document.querySelector('.filter-btn.active').classList.remove('active');
-                e.target.classList.add('active');
-                renderEvents(e.target.dataset.filter);
+                
+                modal.classList.remove('hidden');
+                modalBackdrop.classList.remove('hidden');
             }
+
+            function closeModal() {
+                modal.classList.add('hidden');
+                modalBackdrop.classList.add('hidden');
+            }
+            
+            filterButtons.addEventListener('click', (e) => {
+                const button = e.target.closest('button');
+                if (button) {
+                    document.querySelector('.filter-btn.active').classList.remove('active');
+                    button.classList.add('active');
+                    renderEvents(button.dataset.filter);
+                }
+            });
+
+            eventList.addEventListener('click', (e) => {
+                const card = e.target.closest('.event-card');
+                if (card) {
+                    openModal(card.dataset.id);
+                }
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', closeModal);
+            
+            renderEvents();
         });
-        
-        renderEvents();
     </script>
 </body>
 </html>
