@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한국창의코딩대회 2025 안내 | 도안/세종러닝센터</title>
+    <title>한국창의코딩대회 2025 | 도안/세종러닝센터</title>
+    <link id="favicon" rel="icon" type="image/png" href="">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -210,6 +211,30 @@
             const calendarBody = document.getElementById('calendar-body');
             let lastDateCardRect = null;
 
+            function createFavicon() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 32;
+                canvas.height = 32;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#2a9d8f';
+                ctx.beginPath();
+                const teeth = 8;
+                const radius = 14;
+                const innerRadius = 8;
+                for (let i = 0; i < teeth; i++) {
+                    const angle = (i / teeth) * 2 * Math.PI;
+                    const nextAngle = ((i + 0.5) / teeth) * 2 * Math.PI;
+                    ctx.arc(16, 16, radius, angle, nextAngle, false);
+                    ctx.arc(16, 16, innerRadius, nextAngle, angle, true);
+                }
+                ctx.fill();
+                ctx.beginPath();
+                ctx.fillStyle = '#fefae0';
+                ctx.arc(16, 16, 5, 0, 2 * Math.PI);
+                ctx.fill();
+                document.getElementById('favicon').href = canvas.toDataURL('image/png');
+            }
+
             function renderEvents(filter = 'all') {
                 eventList.innerHTML = '';
                 const filteredEvents = filter === 'all' ? eventData : eventData.filter(e => e.tags.includes(filter));
@@ -396,6 +421,7 @@
                 document.querySelectorAll('.animated-item').forEach(el => observer.observe(el));
             }
 
+            createFavicon();
             renderEvents();
             observeElements();
         });
