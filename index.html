@@ -3,31 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한국로보컵오픈 2026 | 도안/세종러닝센터</title>
+    <title>2027 한국로보컵오픈 참가 안내 | 도안러닝센터</title>
     <link id="favicon" rel="icon" type="image/png" href="">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <!-- Chosen Palette: Doan Learning Center Logo Theme -->
-    <!-- Application Structure Plan: 이 SPA는 사용자가 정보를 단계적으로 발견하도록 설계된 단일 스크롤 페이지입니다. 'Hero 섹션'에서 즉각적으로 주제를 인지시키고, '핵심 정보 대시보드'에서 가장 중요한 정보를 빠르게 전달합니다. 그 다음 '대회 종목 둘러보기' 섹션에서 사용자가 필터를 통해 직접 자신에게 맞는 종목을 찾도록 유도하며, 각 종목 카드를 클릭하면 화면 중앙으로 확대되는 애니메이션과 함께 상세 정보가 나타나도록 구현했습니다. 마지막으로 '대회 일정 타임라인'과 '특별 기회' 섹션을 통해 세부 정보를 시각적으로 전달합니다. 이 구조는 정적인 문서를 읽는 것보다 훨씬 더 능동적이고 흥미로운 정보 탐색 경험을 제공하기 위해 채택되었습니다. -->
-    <!-- Visualization & Content Choices: 
-        - 핵심 정보 (날짜, 장소 등): Goal: Inform -> Viz: 아이콘과 큰 텍스트를 사용한 카드, 스크롤 애니메이션 적용 -> Justification: 가장 중요한 정보를 빠르고 쉽게, 그리고 동적으로 인식할 수 있음. Method: HTML/Tailwind/JS.
-        - 대회 종목 목록: Goal: Organize/Explore -> Viz: 필터링 가능한 카드 목록. 클릭 시 화면 중앙으로 확대되며 상세 정보 표시 -> Justification: 클릭 인터랙션에 세련된 애니메이션을 적용하여 사용자의 흥미를 유발하고, 정보 탐색 경험을 극대화함. Method: HTML/Tailwind/JS.
-        - 대회 일정: Goal: Change (over time) -> Viz: 수직 타임라인, 스크롤 애니메이션 적용 -> Justification: 이틀간의 이벤트 순서를 시각적으로 흥미롭게 전달함. Method: HTML/Tailwind/JS.
-        - CONFIRMATION: NO SVG/Mermaid used.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #fefae0;
+            background-color: #fffcf3;
             color: #264653;
         }
         .gradient-text {
-            background: linear-gradient(90deg, #2a9d8f, #e76f51);
+            background: linear-gradient(90deg, #008da8, #c00078);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -49,7 +39,7 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         .filter-btn.active {
-            background-color: #2a9d8f;
+            background-color: #008da8;
             color: white;
         }
         #modal-backdrop, #calendar-modal-backdrop {
@@ -65,36 +55,38 @@
         #event-modal.open, #calendar-modal.open {
             opacity: 1;
         }
-    </style>
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}.animated-item{opacity:1;transform:none}}
+:focus-visible{outline:3px solid #c00078;outline-offset:4px}
+</style>
 </head>
 <body class="text-gray-800">
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
 
         <header class="text-center my-8 md:my-16 animated-item">
-            <h1 class="text-4xl md:text-6xl font-black gradient-text">한국로보컵오픈 2026</h1>
-            <p class="mt-4 text-lg md:text-xl" style="color: #264653;">미래를 코딩하는 창의 인재들의 축제, 모든 것을 한눈에!</p>
-        </header>
+            <h1 class="text-4xl md:text-6xl font-black gradient-text">2027 한국로보컵오픈<br><span class="text-2xl md:text-4xl">참가 안내</span></h1>
+            <p class="mt-4 text-lg md:text-xl" style="color: #264653;">직접 만든 로봇으로 도전하고, 함께 해결하며 성장하는 무대</p>
+        <p class="max-w-3xl mx-auto mt-6 leading-relaxed text-base md:text-lg">한국로보컵오픈은 아이들이 직접 제작하고 코딩한 로봇으로 주어진 과제를 해결하는 로봇 대회입니다. 연습과 도전을 거듭하며 문제 해결력과 협동심을 기르고, 배운 것을 실제 경기에서 펼쳐 보는 경험을 쌓습니다.</p></header>
 
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center mb-12">
-            <div id="date-card" class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4 cursor-pointer" style="border-color: #2a9d8f;">
+            <div id="date-card" role="button" tabindex="0" aria-label="참가일 달력 보기" class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4 cursor-pointer" style="border-color: #008da8;">
                 <p class="text-5xl mb-2">🗓️</p>
-                <p class="text-xl font-bold" style="color: #264653;">2026년 2월 7일 ~ 8일</p>
-                <p class="text-sm mt-1" style="color: #2a9d8f;">🔍 (달력에서 확인하기)</p>
+                <p class="text-xl font-bold" style="color: #264653;">2027년 1월 30일(토)<br>~ 31일(일)</p>
+                <p class="text-sm mt-1" style="color: #008da8;">🔍 (달력에서 확인하기)</p>
             </div>
-            <a href="https://map.kakao.com/link/search/알펜시아 컨벤션센터" target="_blank" rel="noopener noreferrer" class="animated-item block bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e76f51;">
+            <a href="https://map.kakao.com/link/search/알펜시아 컨벤션센터" target="_blank" rel="noopener noreferrer" class="animated-item block bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #c00078;">
                 <p class="text-5xl mb-2">📍</p>
-                <p class="text-xl font-bold" style="color: #264653;">알펜시아 컨벤션센터</p>
-                <p class="text-sm mt-1" style="color: #e76f51;">🔍 (지도에서 위치 보기)</p>
+                <p class="text-xl font-bold" style="color: #264653;">평창 알펜시아 리조트<br>컨벤션센터</p>
+                <p class="text-sm mt-1" style="color: #c00078;">🔍 (지도에서 위치 보기)</p>
             </a>
-            <div class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #f4a261;">
+            <div class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #c00078;">
                 <p class="text-5xl mb-2">👥</p>
-                <p class="text-xl font-bold" style="color: #264653;">초·중·고 및 청소년</p>
+                <p class="text-xl font-bold" style="color: #264653;">센터 참가 대상<br>초등 3학년 이상</p>
             </div>
-            <div class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #e9c46a;">
-                 <p class="text-5xl mb-2">🏢</p>
-                 <p class="text-xl font-bold" style="color: #264653;">(사)한국로보컵협회<br>& 로봇신문</p>
-                 <p class="text-sm mt-1" style="color: #2a9d8f;">(주최)</p>
+            <div class="animated-item bg-white p-6 rounded-xl shadow-lg border-b-4" style="border-color: #ffc600;">
+                 <p class="text-5xl mb-2">📝</p>
+                 <p class="text-xl font-bold" style="color: #264653;">2026년 12월 12일(토)</p>
+                 <p class="text-sm mt-1" style="color: #008da8;">센터 참가 신청 마감</p>
             </div>
         </section>
 
@@ -102,78 +94,47 @@
             <div class="text-center mb-10 animated-item">
                 <h2 class="text-3xl font-bold mb-2" style="color: #264653;">대회 종목 둘러보기</h2>
                 <p class="max-w-3xl mx-auto" style="color: #264653;">아래 필터를 사용하여 관심있는 연령대의 종목만 모아볼 수 있습니다.</p>
-                <p class="max-w-3xl mx-auto font-bold" style="color: #e76f51;">각 카드를 클릭하면 상세 내용을 확인할 수 있습니다.</p>
+                <p class="max-w-3xl mx-auto font-bold" style="color: #c00078;">각 카드를 클릭하면 상세 내용을 확인할 수 있습니다.</p>
             </div>
             <div id="filter-buttons" class="flex flex-wrap justify-center gap-2 mb-8 animated-item">
                 <button class="filter-btn active py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="all">전체보기</button>
-                <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="rookie">초등 1-2학년</button>
-                <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="u12">초등 3-6학년</button>
-                <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="integrated">초등 3학년 이상</button>
+                <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="u12">초등 3~6학년</button>
+                <button class="filter-btn py-2 px-4 bg-white rounded-full font-semibold shadow" data-filter="older">중·고등학생</button>
             </div>
-            <div id="event-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            </div>
-        </section>
-
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-             <div class="bg-white rounded-lg shadow-md p-8 animated-item">
-                <h2 class="text-3xl font-bold text-center mb-8" style="color: #264653;">대회 일정</h2>
-                <div class="relative pl-8 border-l-4" style="border-color: #f4a261;">
-                    <div class="mb-12 animated-item">
-                        <h3 class="text-xl font-bold" style="color: #2a9d8f;">경기 1일차 (토)</h3>
-                        <p class="mt-2" style="color: #264653;">레스큐 종목의 예선 라운드가 시작되어, 팀들은 다음 날의 최종 경기에 유리한 고지를 점하기 위해 최대한 많은 점수를 획득하고자 노력합니다.</p>
-                        <p class="mt-2"><b style="color: #e76f51;">루키 챌린지 종목은 토요일 하루 동안 모든 경기가 진행되어 최종 순위가 결정됩니다.</b></p>
-                    </div>
-                    <div class="animated-item">
-                        <h3 class="text-xl font-bold" style="color: #2a9d8f;">경기 2일차 (일)</h3>
-                        <p class="mt-2" style="color: #264653;">전날의 점수와 합산될 레스큐 종목의 최종 라운드가 숨가쁘게 진행됩니다. 모든 경기가 종료된 후, 이틀간의 점수를 합산하여 최종 순위를 결정하고 영광의 수상자들을 위한 시상식이 열립니다.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="rounded-lg shadow-xl p-8 flex flex-col justify-center items-center text-center text-white animated-item" style="background-color: #2a9d8f;">
-                <h2 class="text-3xl font-black mb-4">🌍 세계로 가는 특별한 기회!</h2>
-                <p class="text-lg max-w-md mx-auto">본 대회는 대한민국 대표 선발전을 겸합니다.</p>
-                <div class="my-4 p-3 rounded-lg w-full max-w-md" style="background-color: #fefae0e6;">
-
-                </div>
-                <p class="text-lg max-w-md mx-auto">세계 무대에서 여러분의 꿈을 펼칠 수 있는 절호의 기회를 놓치지 마세요!</p>
+            <div id="event-list" class="grid grid-cols-1 md:grid-cols-3 gap-6">
             </div>
         </section>
 
-        <footer class="text-center mt-12 py-8 border-t animated-item" style="border-color: #e9c46a;">
-            <div class="flex flex-col items-center justify-center gap-6">
-                <img src="https://i.imgur.com/HnTF6jn.png" alt="도안러닝센터 로고" class="h-16">
-                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4 text-lg" style="color: #264653;">
-                    <div class="font-semibold">
-                        <p>도안러닝센터</p>
-                        <p>042-825-8053</p>
-                    </div>
-                    <div class="font-semibold">
-                        <p>세종러닝센터</p>
-                        <p>044-865-8054</p>
-                    </div>
-                    <div class="font-semibold">
-                        <p>대덕창의교습소</p>
-                        <p>042-625-8980</p>
-                    </div>
-                    <div class="font-semibold">
-                        <p>논산러닝센터</p>
-                        <p>041-734-7787</p>
-                    </div>
-                </div>
-                <div class="w-full mt-4 border-t pt-6 space-y-2" style="border-color: #e9c46a;">
-                     <p class="font-semibold text-lg" style="color: #e76f51;">박영란 부원장: 010-9010-7853</p>
-                     <p class="font-bold text-lg" style="color: #264653;">대회 참가 문의: 각 센터 및 박영란 부원장</p>
-                </div>
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white rounded-lg shadow-md p-8 animated-item">
+                <h2 class="text-2xl font-bold mb-5">참가 일정과 신청</h2>
+                <p class="text-lg font-bold" style="color:#008da8">2027. 1. 30.(토) ~ 1. 31.(일)</p>
+                <p class="mt-3">평창 알펜시아 리조트 컨벤션센터</p>
+                <p class="text-sm mt-1">강원특별자치도 평창군 대관령면 솔봉로 325</p>
+                <p class="mt-5 font-bold">참가 신청: 2026년 12월 12일(토)까지</p>
+                <p class="mt-2">참가를 희망하시면 센터로 문의해 주세요. 아이의 경험과 준비 상황을 함께 살펴 참가 종목을 안내해 드립니다.</p>
+            </div>
+            <div class="rounded-lg shadow-md p-8 animated-item" style="background:#e7f6f8">
+                <h2 class="text-2xl font-bold mb-5">참가 비용 안내</h2>
+                <p class="leading-relaxed">대회 준비를 위한 특강 및 재료비 등 관련 비용은 추후 다시 안내해 드릴 예정입니다.</p>
+                <a href="https://www.robocupkorea.org/" target="_blank" rel="noopener noreferrer" class="inline-block mt-6 underline font-bold">로보컵코리아 홈페이지 ↗</a>
+            </div>
+        </section>
+        <footer class="text-center mt-12 py-8 border-t animated-item" style="border-color:#ffc600">
+            <div class="flex flex-wrap items-center justify-center gap-5">
+                <img src="logo.png" alt="두잉굿" style="width:105px;height:auto">
+                <div class="text-left"><p class="text-xl font-bold">도안러닝센터</p><a href="tel:0428258053" class="text-lg">참가 문의 042-825-8053</a></div>
             </div>
         </footer>
     </div>
 
     <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-75 hidden z-40"></div>
-    <div id="event-modal" class="fixed top-0 left-0 z-50 hidden">
+    <div id="event-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" class="fixed top-0 left-0 z-50 hidden">
         <div id="modal-content" class="bg-white rounded-lg shadow-2xl">
             <div class="sticky top-0 bg-white p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
                 <h3 id="modal-title" class="text-2xl font-bold" style="color: #264653;"></h3>
-                <button id="modal-close-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                <button id="modal-close-btn" aria-label="종목 안내 닫기" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
             </div>
             <div id="modal-body" class="p-6 sm:p-8 overflow-y-auto" style="max-height: calc(85vh - 70px);">
             </div>
@@ -181,11 +142,11 @@
     </div>
     
     <div id="calendar-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-60 hidden z-40"></div>
-    <div id="calendar-modal" class="fixed top-0 left-0 z-50 hidden">
+    <div id="calendar-modal" role="dialog" aria-modal="true" aria-labelledby="calendar-title" class="fixed top-0 left-0 z-50 hidden">
         <div class="bg-white rounded-lg shadow-2xl">
             <div class="p-4 flex items-center justify-between border-b">
                 <h3 id="calendar-title" class="text-lg font-bold" style="color: #264653;"></h3>
-                <button id="calendar-close-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                <button id="calendar-close-btn" aria-label="달력 닫기" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
             </div>
             <div class="grid grid-cols-7 text-center text-xs font-bold py-2 border-b">
                 <div class="text-red-500">일</div>
@@ -203,12 +164,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const eventData = [
-                { id: 'rookie-challenge', name: '루키챌린지', age: '초등 1-2학년', category: '창의 미션', note: '토요일 하루 진행', desc: '컬링과 비슷한 방식으로, 로봇을 이용해 퍽(공)을 과녁의 중심에 가깝게 보내는 경기입니다.', tags: ['rookie'], details: { mission: '컬링처럼 로봇을 이용해 지정된 퍽(공)을 과녁 중앙에 가장 가깝게 보내는 경기입니다.', rules: ['로봇은 출발 후 완전히 자율적으로 움직여야 합니다.', '대회 현장에서 로봇을 조립하고 프로그램을 작성해야 합니다.', '팀 당 6개의 퍽(공)이 주어지며, 모든 턴이 끝난 후 점수를 계산합니다.', '과녁 중앙에 가까울수록 높은 점수를 획득합니다 (노랑 20점, 빨강 15점, 하양 10점, 파랑 5점).'], field: '약 750mm x 1600mm 크기의 흰색 경기장 위에 동심원 모양의 과녁이 그려져 있습니다.' } },
-                { id: 'rescue-basic', name: '레스큐 베이직', age: '초등 3-6학년', category: '로봇 구조', desc: '실제 로봇을 활용하여 주어진 구조 미션을 해결하는 종목입니다.', tags: ['u12', 'integrated'], details: { mission: '라인을 따라 이동하며 장애물을 극복하고 조난자를 지정된 장소로 운반하는 미션입니다.', rules: ['로봇은 완전히 자율적으로 작동해야 합니다.', '검은색 라인을 따라 주행해야 합니다.', '장애물, 경사로 등 다양한 환경을 통과해야 합니다.' , '조난자를 안전하게 구조하여 대피 구역으로 옮겨야 합니다.'], field: '검은색 라인과 다양한 장애물(경사로, 험로 등)으로 구성된 경기장' } },
-                { id: 'rescue-maze', name: '레스큐 메이즈 베이직', age: '초등 3-6학년', category: '로봇 구조', desc: '복잡한 미로를 탐색하며 인명을 구조하는 임무에 도전합니다.', tags: ['u12', 'integrated'], details: { mission: '미로를 자율적으로 탐색하여 조난자를 찾아내고, 출발 지점으로 귀환하는 미션입니다.', rules: ['로봇은 스스로 미로 지도를 작성하며 탐색해야 합니다.', '벽과의 충돌을 최소화해야 합니다.', '조난자(열 또는 색상 센서로 감지)를 발견하면 신호를 보내야 합니다.', '탐색 완료 후 출발 지점으로 돌아와야 합니다.'], field: '벽으로 구성된 복잡한 미로 형태의 경기장' } },
-                { id: 'rescue-line', name: '레스큐 라인', age: '초등 3학년 이상', category: '로봇 구조', desc: '라인트레이싱 기술을 활용하여 신속하고 정확하게 구조 미션을 완료합니다.', tags: ['integrated'], details: { mission: '검은색 선으로 이루어진 경로를 따라가며, 중간에 놓인 조난자(공)를 수거하여 지정된 구조 구역으로 옮기는 미션입니다.', rules: ['로봇은 검은색 선을 벗어나지 않고 주행해야 합니다.', '경로 상의 교차로나 끊어진 길 등 다양한 상황을 판단하여 극복해야 합니다.', '조난자를 안전하게 수집하고 지정된 위치에 정확히 놓아야 합니다.', '가장 빠른 시간 안에 미션을 완료해야 합니다.'], field: '흰색 바닥에 검은색 선으로 그려진 트랙, 교차로 및 다양한 형태의 조난자 포함' } }
-            ];
+            const eventData = [{"id": "rescue-maze", "name": "레스큐 메이즈 베이직", "age": "초등 3~6학년", "desc": "미로를 탐색하며 구조 과제를 해결하는 종목입니다.", "tags": ["u12"], "learning": "센서로 주변을 살피고, 갈림길에서 이동 방향을 판단하는 과정을 연습합니다.", "category": "로봇 구조"}, {"id": "rescue-basic", "name": "레스큐 베이직", "age": "초등 3~6학년", "desc": "로봇을 제작하고 코딩해 주어진 구조 미션에 도전하는 종목입니다.", "tags": ["u12"], "learning": "로봇의 움직임을 관찰하고 프로그램을 수정하며, 미션을 해결하는 방법을 찾아갑니다.", "category": "로봇 구조"}, {"id": "rescue-line", "name": "레스큐 라인", "age": "초등 3학년 이상", "desc": "선을 따라 이동하는 로봇으로 구조 미션을 수행하는 종목입니다.", "tags": ["u12", "older"], "learning": "안정적으로 선을 따라 주행하고 다양한 경로에서 움직임을 조절하는 방법을 연습합니다.", "category": "로봇 구조"}];
 
             const eventList = document.getElementById('event-list');
             const filterButtons = document.getElementById('filter-buttons');
@@ -232,7 +188,7 @@
                 canvas.width = 32;
                 canvas.height = 32;
                 const ctx = canvas.getContext('2d');
-                ctx.fillStyle = '#2a9d8f';
+                ctx.fillStyle = '#008da8';
                 ctx.beginPath();
                 const teeth = 8;
                 const radius = 14;
@@ -245,7 +201,7 @@
                 }
                 ctx.fill();
                 ctx.beginPath();
-                ctx.fillStyle = '#fefae0';
+                ctx.fillStyle = '#fffcf3';
                 ctx.arc(16, 16, 5, 0, 2 * Math.PI);
                 ctx.fill();
                 document.getElementById('favicon').href = canvas.toDataURL('image/png');
@@ -258,18 +214,18 @@
                 filteredEvents.forEach(event => {
                     const card = document.createElement('div');
                     card.className = 'event-card animated-item bg-white rounded-lg shadow-md p-6 border-l-4 flex flex-col';
-                    card.style.borderColor = '#e76f51';
-                    card.dataset.id = event.id;
+                    card.style.borderColor = '#c00078';
+                    card.dataset.id = event.id; card.tabIndex = 0; card.setAttribute('role','button'); card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); } });
 
                     card.innerHTML = `
                         <div class="flex-grow">
-                            <p class="text-sm font-bold" style="color: #2a9d8f;">${event.category}</p>
+                            <p class="text-sm font-bold" style="color: #008da8;">${event.category}</p>
                             <h4 class="text-xl font-bold mt-1" style="color: #264653;">${event.name}</h4>
-                            <p class="text-sm font-semibold my-2" style="color: #264653b3;">${event.age}</p>
+                            <p class="text-sm font-semibold my-2" style="color: #264653b3;">센터 참가 대상: ${event.age}</p>
                             <p class="text-base" style="color: #264653;">${event.desc}</p>
                         </div>
-                        ${event.note ? `<div class="mt-4"><span class="inline-block bg-[#e76f51] text-white text-xs font-bold px-3 py-1 rounded-full">${event.note}</span></div>` : ''}
-                        <div class="text-right mt-4 font-bold" style="color: #f4a261;">자세히 보기 →</div>
+                        ${event.note ? `<div class="mt-4"><span class="inline-block bg-[#c00078] text-white text-xs font-bold px-3 py-1 rounded-full">${event.note}</span></div>` : ''}
+                        <div class="text-right mt-4 font-bold" style="color: #c00078;">자세히 보기 →</div>
                     `;
                     eventList.appendChild(card);
                 });
@@ -280,25 +236,15 @@
                 const event = eventData.find(e => e.id === eventId);
                 if (!event) return;
                 
-                lastEventCardRect = cardRect;
+                lastEventCardRect = cardRect; currentEventId = eventId;
                 modalTitle.textContent = event.name;
                 modalBody.innerHTML = `
-                    <div class="mb-6">
-                        <h4 class="text-lg font-bold border-b-2 pb-2 mb-3" style="color: #2a9d8f; border-color: #f4a261;">🎯 미션 목표</h4>
-                        <p style="color: #264653;">${event.details.mission}</p>
-                    </div>
-                    <div class="mb-6">
-                        <h4 class="text-lg font-bold border-b-2 pb-2 mb-3" style="color: #2a9d8f; border-color: #f4a261;">📜 주요 규정</h4>
-                        <ul class="list-disc list-inside space-y-2" style="color: #264653;">
-                            ${event.details.rules.map(rule => `<li>${rule}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-bold border-b-2 pb-2 mb-3" style="color: #2a9d8f; border-color: #f4a261;">🏞️ 경기 환경</h4>
-                        <p style="color: #264653;">${event.details.field}</p>
-                    </div>
+                    <h4 class="text-lg font-bold mb-3">어떤 종목인가요?</h4><p>${event.desc}</p>
+                    <h4 class="text-lg font-bold mt-6 mb-3">준비하며 배우는 것</h4><p>${event.learning}</p>
+                    <p class="mt-6 font-bold">센터 참가 대상: ${event.age}</p>
+                    <p class="mt-3 text-sm">세부 경기 규정과 준비 사항은 최신 대회 안내를 확인해 별도로 안내해 드립니다.</p>
                 `;
-                
+                document.body.style.overflow = 'hidden';
                 modalBackdrop.classList.remove('hidden');
                 eventModal.style.left = `${cardRect.left}px`;
                 eventModal.style.top = `${cardRect.top}px`;
@@ -308,7 +254,7 @@
                 
                 requestAnimationFrame(() => {
                     modalBackdrop.style.opacity = '1';
-                    eventModal.classList.add('open');
+                    eventModal.classList.add('open'); modalCloseBtn.focus();
                     const targetWidth = Math.min(800, window.innerWidth * 0.9);
                     eventModal.style.left = `${(window.innerWidth - targetWidth) / 2}px`;
                     eventModal.style.top = `5vh`;
@@ -318,23 +264,11 @@
             }
 
             function closeEventModal() {
-                if (!lastEventCardRect) return;
-
-                modalBackdrop.style.opacity = '0';
-                eventModal.classList.remove('open');
-                eventModal.style.left = `${lastEventCardRect.left}px`;
-                eventModal.style.top = `${lastEventCardRect.top}px`;
-                eventModal.style.width = `${lastEventCardRect.width}px`;
-                eventModal.style.height = `${lastEventCardRect.height}px`;
-
-                eventModal.addEventListener('transitionend', function handler() {
-                    eventModal.classList.add('hidden');
-                    modalBackdrop.classList.add('hidden');
-                    lastEventCardRect = null;
-                    eventModal.removeEventListener('transitionend', handler);
-                }, { once: true });
+                eventModal.classList.add('hidden'); modalBackdrop.classList.add('hidden');
+                document.body.style.overflow = '';
+                document.querySelector('[data-id="' + currentEventId + '"]')?.focus();
             }
-
+            let currentEventId = '';
             function generateCalendar(year, month) {
                 calendarBody.innerHTML = '';
                 calendarTitle.textContent = `${year}년 ${month + 1}월`;
@@ -347,11 +281,11 @@
 
                 for (let day = 1; day <= daysInMonth; day++) {
                     const dayCell = document.createElement('div');
-                    dayCell.className = 'py-2 w-10 h-10 flex items-center justify-center';
+                    dayCell.className = 'py-2 min-w-0 h-10 flex items-center justify-center';
                     dayCell.textContent = day;
 
-                    if (year === 2025 && month === 7 && (day === 9 || day === 10)) {
-                        dayCell.classList.add('bg-[#e76f51]', 'text-white', 'font-bold', 'rounded-full');
+                    if (year === 2027 && month === 0 && (day === 30 || day === 31)) {
+                        dayCell.classList.add('bg-[#c00078]', 'text-white', 'font-bold', 'rounded-full');
                     }
                     calendarBody.appendChild(dayCell);
                 }
@@ -359,7 +293,7 @@
             
             function openCalendar(cardRect) {
                 lastDateCardRect = cardRect;
-                generateCalendar(2025, 7);
+                generateCalendar(2027, 0); document.body.style.overflow = 'hidden';
                 
                 calendarBackdrop.classList.remove('hidden');
                 calendarModal.style.left = `${cardRect.left}px`;
@@ -370,7 +304,7 @@
 
                 requestAnimationFrame(() => {
                     calendarBackdrop.style.opacity = '1';
-                    calendarModal.classList.add('open');
+                    calendarModal.classList.add('open'); calendarCloseBtn.focus();
                     const targetWidth = Math.min(384, window.innerWidth * 0.9);
                     const targetHeight = calendarModal.querySelector('div').offsetHeight;
                     calendarModal.style.left = `${(window.innerWidth - targetWidth) / 2}px`;
@@ -381,23 +315,19 @@
             }
 
             function closeCalendar() {
-                if (!lastDateCardRect) return;
-
-                calendarBackdrop.style.opacity = '0';
-                calendarModal.classList.remove('open');
-                calendarModal.style.left = `${lastDateCardRect.left}px`;
-                calendarModal.style.top = `${lastDateCardRect.top}px`;
-                calendarModal.style.width = `${lastDateCardRect.width}px`;
-                calendarModal.style.height = `${lastDateCardRect.height}px`;
-
-                calendarModal.addEventListener('transitionend', function handler() {
-                    calendarModal.classList.add('hidden');
-                    calendarBackdrop.classList.add('hidden');
-                    lastDateCardRect = null;
-                    calendarModal.removeEventListener('transitionend', handler);
-                }, { once: true });
+                calendarModal.classList.add('hidden'); calendarBackdrop.classList.add('hidden');
+                document.body.style.overflow = ''; dateCard.focus();
             }
-            
+            document.addEventListener('keydown', e => {
+                if(e.key === 'Escape') {
+                    if(!eventModal.classList.contains('hidden')) closeEventModal();
+                    else if(!calendarModal.classList.contains('hidden')) closeCalendar();
+                }
+                if(e.key === 'Tab') {
+                    if(!eventModal.classList.contains('hidden')) {e.preventDefault();modalCloseBtn.focus();}
+                    else if(!calendarModal.classList.contains('hidden')) {e.preventDefault();calendarCloseBtn.focus();}
+                }
+            });
             filterButtons.addEventListener('click', (e) => {
                 const button = e.target.closest('button');
                 if (button) {
@@ -415,6 +345,7 @@
                 }
             });
             
+            dateCard.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dateCard.click(); } });
             dateCard.addEventListener('click', (e) => {
                  const cardRect = e.currentTarget.getBoundingClientRect();
                  openCalendar(cardRect);
@@ -444,3 +375,4 @@
     </script>
 </body>
 </html>
+
